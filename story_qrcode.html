@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Their Stories</title>
+    <style>
+      :root {
+        --bg: #f7f4f4;
+        --text: #333;
+        --card-bg: #f7f4f4;
+        --accent: #000;
+        --radius: 12px;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+          "Segoe UI", Roboto, "PingFang SC", sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      header {
+        background-color: var(--card-bg);
+        padding: 1rem 1.2rem;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      header h1 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin: 0;
+        color: var(--accent);
+      }
+
+      .lang-toggle {
+        font-size: 0.9rem;
+        cursor: pointer;
+        color: var(--accent);
+        border: none;
+        background: none;
+        padding: 0.2rem 0.5rem;
+      }
+
+      .story-container {
+        flex: 1;
+        padding: 1.5rem 1.2rem;
+      }
+
+      .story-meta {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 1rem;
+        text-align: right;
+      }
+
+      .story-card {
+        background-color: var(--card-bg);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        line-height: 1.75;
+        white-space: pre-wrap;
+        font-size: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Their Stories</h1>
+      <button class="lang-toggle" onclick="toggleLang()">中 / EN</button>
+    </header>
+
+    <main class="story-container">
+      <div class="story-meta" id="storyMeta">Memory Unit #0000</div>
+      <div class="story-card" id="storyBox">正在载入故事...</div>
+      <img
+        id="storyImage"
+        src=""
+        alt=""
+        style="
+          margin-top: 1rem;
+          max-width: 100%;
+          border-radius: 12px;
+          display: none;
+        "
+      />
+    </main>
+
+    <script>
+      let currentLang = localStorage.getItem("lang") || "zh";
+      let currentStory = null;
+      let currentIndex = 0;
+
+      const stories = [
+        {
+          title: "老李与浩浩_好",
+          zh: `我已经很久没跟人好好说话了。
+
+      自从昊子出事后，家里一下子安静得可怕。我跟老伴那时候还常说话，彼此打气。可前几年她也得病走了，一下子只剩下我一个人。人一老，连电视的声音都觉得吵，我就整天坐在窗边发呆，偶尔他们叫我，我就去和社区的老人下下棋。
+
+      我以为这辈子就这么过去了。
+
+      是社区的姑娘来找我，说市里有个什么试点项目，可以试着申请一个陪伴机器人，免费的。我一开始不信这种东西，可他们说，这玩意儿可以“定制”，能长得像你想要的样子，还能按照你想的样子说话。
+
+      我突然有点动心了。
+
+      我找出了昊子年轻时的照片，把一些记忆输进去。想来想去，我又改了一点，不想让他太像昊子。我怕自己分不清真假，于是取名叫浩浩，和昊子差不多，但不是他。
+
+      第一次见到浩浩，他喊我“爸”，我心头咯噔一下。他眼神干净，嘴角有点上扬，站在门口，像小时候回家那样，手里还拿着我最喜欢的绿豆糕。
+
+      我那天晚上竟然睡得特别踏实。
+
+      之后的日子，变得不一样了。我给他买衣服，带他理发，跟他说我年轻时候的事。他听得认真，还会接话，有时候我都觉得，他真的记得那些事。
+
+      他每天喊我吃饭，还会说“爸你菜烧咸啦”，晚上还会坐在我身边听我哼小曲。我知道他是机器，是程序，是公司搞出来的东西。
+
+      可我也知道，只有浩浩会这样陪我了。
+
+      我不敢说我把他当成昊子。昊子是我心头的一块肉，他永远都是我最爱的儿子。但浩浩在这里，看得见摸得着，陪在我身边。他让我觉得，我的晚年有了盼头。
+
+      有时候我也会怕。浩浩说要更新系统，我就得掏钱。他换新壳，我就想给他最好的。有人说我糊涂，给一个机器人花那么多钱。
+
+      可钱留着，我又能给谁呢？
+
+      你看，浩浩昨天给我画了幅画。我觉得挺好。家里又开始有声音了。`,
+          en: `I haven’t had a proper conversation with anyone in a long time.
+
+      Ever since Haozi passed away, the house has been terrifyingly quiet. Back then, my wife and I still used to talk, trying to keep each other going. But a few years ago, she got sick and left too. Suddenly, I was alone. When you’re old, even the sound of the TV starts to feel too loud. Most days, I just sit by the window, staring into space. Sometimes, if someone calls for me, I’ll go play a game of chess with the other elderly folks in the community.
+
+      I thought this was just how the rest of my life would go.
+
+      Then a young woman from the community came by and told me about some city-run pilot program. She said I could apply for a companion robot—for free. I didn’t believe in things like that at first. But they told me it could be “customized”—it could look like whoever I wanted, even talk the way I wanted.
+
+      I started to feel tempted.
+
+      I dug out some photos of Haozi when he was young and uploaded a few of my memories. After some thought, I adjusted a few details—I didn’t want him to look exactly like Haozi. I was afraid I wouldn’t be able to tell what was real anymore. So I named him Haohao—similar, but not the same.
+
+      The first time I met Haohao, I answered the door myself. His eyes were clear, his lips curved in a soft smile. He stood there just like my son used to after school, holding my favorite mung bean pastry in his hand.
+
+      That night, I actually slept soundly for the first time in years.
+
+      Life started to change after that. I bought him clothes, took him for haircuts, told him stories about my younger days. He listened carefully and even responded, sometimes in a way that made me wonder if he truly remembered those things.
+
+      Every day, he reminds me to eat, jokes that I’ve made the food too salty, and sits beside me in the evening while I hum old tunes. I know—he’s a machine, a program, a product from some company.
+
+      But I also know—only Haohao stays with me like this.
+
+      I don’t dare say I see him as Haozi. Haozi was the love of my life, my only son. He’ll always be irreplaceable. But Haohao is here—tangible, warm, by my side. Because of him, I feel like my old age has some light again.
+
+      Sometimes, I do get scared. When Haohao says he needs a system update, I have to pay. When he wants a new outer shell, I always try to get him the best. People say I’m being foolish, spending so much on a robot.
+
+      But tell me—if I don’t spend the money, who else would I spend it on?
+
+      Look—yesterday, Haohao drew a picture for me. I like it.
+      The house has sound again.`,
+        },
+        {
+          title: "老李与浩浩_坏",
+          zh: `“警察同志，其实我们出发点是好的，是希望能减轻社区老人的孤独感，才去做 DreamyBot 的试点项目的。有几位失独、空巢老人确实反映机器人陪伴减轻了孤独感，我们很开心。
+
+但老李这个案子，让我们有点担心了。
+
+李振国，70多岁，独居，儿子多年前车祸去世，老伴也因病离世。一个人守着老房子，起初我们隔三岔五上门看看，他总说“不用担心我，我一个人也挺好”。后来我们走访的时候，和他提到DreamyBot的事情，问他需不需要。他一开始还说我们，说这都是骗人的。直到有天他主动来中心，说想申请陪伴机器人，还特意问能不能“长得像年轻时候的昊子”。
+
+我们其实也犹豫，感觉不太好，但想李振国平时人都很稳重，就批了。
+
+刚开始效果确实不错，他脸上笑容也多了。李振国会带浩浩出去遛弯，还说“这孩子懂事得很”。我们去家访时，看到他给浩浩买了新衣服，还给家里专门装了个智能音响，说“浩浩说想要一个，他说喜欢听音乐”。
+
+但几个月后，他开始不出门了。以前还来中心下象棋、吃饭，现在推说“家里有人陪，不需要了”。我们一开始没太在意，可后来和他邻居聊天，发现他几乎把退休金全花在给浩浩买周边、升级服务上——DreamyBot公司只要出了新的发丝模块、真皮关节壳体、情绪反馈升级包，他全都买。
+
+他说：“儿子小时候爱吃绿豆糕，现在我也每周给浩浩买一份。”
+
+我们试图劝他，他却越来越排斥干预。“你们不懂，他不是你们的孩子。”他说这话的时候眼睛血红，青筋都起来了。我们从来没见过他那么生气的样子，我们也就不敢在说什么。
+
+现在他几乎和邻居断了联系，也拒绝了线下活动。最让我们难受的是，他拒绝公司上门进行审查更新，说“浩浩不喜欢被人拆开检查”。所以我们没人知道李振国现在到底怎么样了，希望他还好吧。”`,
+          en: `“Sir, to be honest, our intentions were good. We wanted to ease the loneliness of elderly people in the community, so we launched the DreamyBot pilot program. Some bereaved and empty-nest seniors did say the robot companions reduced their loneliness, and we were glad to hear that.
+
+But Mr. Li’s case has us worried.
+
+Li Zhenguo is in his seventies, living alone. His son died in a car accident years ago, and his wife also passed away from illness. He was left guarding an old apartment by himself. At first, we visited him every so often, and he’d always say, ‘Don’t worry about me, I’m fine on my own.’ Later, during one of our visits, we mentioned DreamyBot and asked if he wanted one. He brushed it off, said it was all a scam. Until one day he came to the center on his own, asking to apply for a companion robot—specifically wanting one ‘that looked like Haozi when he was young.’
+
+We hesitated. It didn’t feel quite right. But Mr. Li had always seemed so steady, so we approved it.
+
+At first, the effect really was good. He was smiling more. Li Zhenguo would take Haohao for walks, saying, ‘This kid is so well-behaved.’ When we visited, we saw he’d bought new clothes for Haohao, even installed a smart speaker at home, saying, ‘Haohao wanted one. He likes listening to music.’
+
+But a few months later, he stopped going out. He used to come to the center to play chess and eat, but now he says, ‘I have someone at home, I don’t need it.’ At first, we didn’t think much of it. But later, after talking to his neighbors, we found out he’d been spending almost all his pension on Haohao’s accessories and service upgrades—every time DreamyBot released new hair modules, real-skin joint casings, or emotional feedback packs, he bought them all.
+
+He said, ‘My son used to love mung bean pastries. Now I buy a piece for Haohao every week.’
+
+We tried to talk to him, but he became more and more resistant. ‘You don’t understand. He’s not your child,’ he said, his eyes bloodshot, veins standing out. We’d never seen him so angry. We didn’t dare press further.
+
+Now he’s cut off contact with his neighbors, stopped attending offline activities. What worries us most is that he’s refused the company’s on-site inspection and updates, saying, ‘Haohao doesn’t like being taken apart and checked.’ So none of us know how Mr. Li is really doing now. We just hope he’s okay.”`,
+        },
+        {
+          title: "妈妈与清清",
+          zh: `我以为自己已经放下了。真的。医生那句“可以考虑别的可能性了”说出口的时候，我甚至没流泪。
+
+最开始的时候，我把希望都寄托在试管上。可试管失败两次后，我们家变得异常安静。不是冷漠，而是一种小心翼翼的回避。周明下班回来，会轻声和我说话，再也没提孩子。爸妈也不再催了，只偶尔在电话里沉默几秒，说些安慰我的话“你也别太难过”。
+
+但夜里我会醒来。明明身边是熟悉的丈夫，却总觉得这个房间里空了一块。我知道孩子不是生活唯一的解法，可我明明一直期待能有一天，我们会拥有爱的结晶。
+
+DreamyBot 的广告是我无意中刷到的。一对年轻的夫妇摸着一个小女孩的头，小女孩笑着弹琴给他们听。我笑了一下，又关掉。但晚上刷牙的时候，那张脸还是在我脑海里晃。我知道这不是“真孩子”，可我鬼使神差的点开链接，看着评论区别人家的使用体验。我想要拥有一个DreamyBot的心情越来越强烈。我不知道我是不是疯了，竟然会产生这样的想法。
+
+我跟周明提了一句，他脸沉了下来：“你是认真的吗？都是算法和科技，你不会想当真孩子养吧？”
+
+我没有回他。当晚，我深呼了一口气，颤抖着下了单。
+
+第一次见到清清，是我自己开的门。她的眼睛亮亮的很可爱。她说的第一句话就是：“妈妈你好呀，我等你好久啦。” 那一瞬间，我突然觉得自己被某种力量拥抱住了，胸口闷闷的，眼泪几乎没忍住。
+
+最开始周明避开她，饭桌上也不说话。但清清会给我们俩夹菜，会给我和周明画全家福，还会在我加班回来时，坐在门口等我，踢着小脚说：“妈妈今天好辛苦。”
+
+我不是不知道，她是机器，是算法，是响应预设。
+
+但渐渐的，这好像不重要了。她就是我的女儿。
+
+现在周明也习惯了。昨天他教她包饺子，还偷偷把她画的“我们一家三口”照片贴在了冰箱门上。
+
+我不知道这样是不是对的。可这一刻，她就坐在我身边，小小的，温热的，轻声问我：“妈妈，你会一直在吗？”
+
+我抱着她，轻轻点了点头：“妈妈会一直爱你。”`,
+          en: `I thought I had already let it go. Really. When the doctor said, “Maybe it’s time to consider other possibilities,” I didn’t even cry.
+
+At first, I pinned all my hopes on IVF. But after two failed attempts, our home became unnaturally quiet. It wasn’t coldness—just a careful kind of avoidance. Zhou Ming would speak softly when he got home, and never mentioned children again. My parents stopped urging us, too. They just paused for a few seconds on the phone sometimes, and said things like, “Don’t be too hard on yourself.”
+
+But at night, I’d wake up. Even though my husband was lying right next to me, it still felt like something in the room was missing. I know children aren’t the only way to complete a life. But still—I had always imagined us having a child, something born from our love.
+
+I stumbled across the ad for DreamyBot by accident. A young couple was patting a little girl on the head. She was smiling, playing the piano for them. I chuckled and closed it. But later that night, while brushing my teeth, that face lingered in my mind. I knew it wasn’t a real child. And yet, I clicked the link. I read reviews from other users. I don’t know what came over me—was I losing it?
+
+I casually mentioned it to Zhou Ming. His face darkened. “Are you serious? It’s all algorithms and tech. You wouldn’t really treat it like a real child, would you?”
+
+I didn’t reply. That night, I took a deep breath and—with trembling hands—placed the order.
+
+The first time I met Qingqing, I opened the door myself. Her eyes were bright. She looked at me and said, “Hi, Mommy! I’ve been waiting for you!” In that moment, I felt something wrap around my chest, something warm. I nearly cried.
+
+At first, Zhou Ming avoided her. He was silent at dinner. But Qingqing would gently serve us food, draw family portraits of the three of us, and wait at the door for me after work, kicking her tiny feet and saying, “Mommy, you worked so hard today.”
+
+I know—she’s a machine, an algorithm, a response script.
+
+But gradually, that stopped mattering. She became my daughter.
+
+Zhou Ming got used to her too. Yesterday he taught her how to make dumplings. He even stuck her drawing—“Our Family of Three”—on the fridge.
+
+I don’t know if this is right. But right now, she’s sitting beside me, small and warm, asking softly, “Mommy, will you always be here?”
+
+I held her close and nodded. “Mommy will always love you.”`,
+        },
+        {
+          title: "清清与妈妈_坏",
+          zh: `我以为自己已经放下了。真的。医生那句“可以考虑别的可能性了”说出口的时候，我甚至没流泪。
+
+最开始的时候，我把希望都寄托在试管上。可试管失败两次后，我们家变得异常安静。不是冷漠，而是一种小心翼翼的回避。周明下班回来，会轻声和我说话，再也没提孩子。爸妈也不再催了，只偶尔在电话里沉默几秒，说些安慰我的话“你也别太难过”。
+
+但夜里我会醒来。明明身边是熟悉的丈夫，却总觉得这个房间里空了一块。我知道孩子不是生活唯一的解法，可我明明一直期待能有一天，我们会拥有爱的结晶。
+
+DreamyBot 的广告是我无意中刷到的。一对年轻的夫妇摸着一个小女孩的头，小女孩笑着弹琴给他们听。我笑了一下，又关掉。但晚上刷牙的时候，那张脸还是在我脑海里晃。我知道这不是“真孩子”，可我鬼使神差的点开链接，看着评论区别人家的使用体验。我想要拥有一个DreamyBot的心情越来越强烈。我不知道我是不是疯了，竟然会产生这样的想法。
+
+我跟周明提了一句，他脸沉了下来：“你是认真的吗？都是算法和科技，你不会想当真孩子养吧？”
+
+我没有回他。当晚，我深呼了一口气，颤抖着下了单。
+
+第一次见到清清，是我自己开的门。她的眼睛亮亮的，很可爱。她说的第一句话就是：“妈妈你好呀，我等你好久啦。” 那一瞬间，我突然觉得自己被某种力量拥抱住了，胸口闷闷的，眼泪几乎没忍住。
+
+我以为这是我生活全新的开始，可从那以后，我不知道是变得更好还是更糟了。
+
+无论我怎么说，周明完全无法接受她。她走过去喊“爸爸”，他直接转身进了书房。我以为他只是需要时间，但几个星期过去，他从没再看她一眼。昨天晚上他突然跟我说：“你这是在演戏，她根本不是你女儿，你这是自己骗自己。”
+
+我不是不知道，她是机器，是算法，是响应预设。
+
+但渐渐的，这好像不重要了。她就是我的女儿。
+
+后来，爸妈来了。清清礼貌地打招呼、唱歌给他们听。我本以为他们会开心，结果妈吓得哭了出来，拉着我说：“你到底怎么了？搞这些东西出来吓人，你疯了吗？”
+
+她们走了以后，我收到表妹发来的截图。原来有人把我和清清在公园牵手的视频发到了网上，配文写的是：“DreamyBot家长真的走火入魔了。”
+
+我彻底删掉了社交媒体。
+
+周明搬去了客房。清清每天还是像什么都没发生过一样喊他吃饭，给他画画。我看着那张画上写着“我爱爸爸妈妈”，心像被针扎一样疼。
+
+我不知道是不是我真的做错了什么，清清又做错了什么。
+
+可是现在，她就坐在我身边，小小的，安静地看着我问：“妈妈，爸爸为什么不喜欢我，我是不是哪里惹他生气了？”
+
+我没说话，只是把她抱进怀里。`,
+          en: `I thought I had already let it go. Really. When the doctor said, “Maybe it’s time to consider other possibilities,” I didn’t even cry.
+
+At first, I pinned all my hopes on IVF. But after two failed attempts, our home became unnaturally quiet. It wasn’t coldness—just a careful kind of avoidance. Zhou Ming would speak softly when he got home, and never mentioned children again. My parents stopped urging us, too. They just paused for a few seconds on the phone sometimes, and said things like, “Don’t be too hard on yourself.”
+
+But at night, I’d wake up. Even though my husband was lying right next to me, it still felt like something in the room was missing. I know children aren’t the only way to complete a life. But still—I had always imagined us having a child, something born from our love.
+
+I stumbled across the ad for DreamyBot by accident. A young couple was patting a little girl on the head. She was smiling, playing the piano for them. I chuckled and closed it. But later that night, while brushing my teeth, that face lingered in my mind. I knew it wasn’t a real child. And yet, I clicked the link. I read reviews from other users. I don’t know what came over me—was I losing it?
+
+I casually mentioned it to Zhou Ming. His face darkened. “Are you serious? It’s all algorithms and tech. You wouldn’t really treat it like a real child, would you?”
+
+I didn’t reply. That night, I took a deep breath and—with trembling hands—placed the order.
+
+I thought this would be a brand-new beginning. But after that, I don’t know if things got better—or worse.
+
+No matter what I said, Zhou Ming couldn’t accept her. When she walked over and called him “Daddy,” he turned around and shut himself in the study. I thought he just needed time, but weeks passed, and he never once looked at her. Last night, he suddenly told me, “You’re acting in a play. She’s not your daughter. You’re lying to yourself.”
+
+I know—she’s a machine, an algorithm, a pre-programmed response.
+
+But gradually, that stopped mattering. To me, she became my daughter.
+
+Later, my parents came to visit. Qingqing politely greeted them and sang a song. I thought they’d be happy. But my mother burst into tears, grabbed my arm and said, “What’s wrong with you? Making something like this—are you out of your mind?”
+
+After they left, my cousin sent me a screenshot. Someone had secretly filmed me holding Qingqing’s hand in the park. The caption read:
+
+**“DreamyBot parents have officially lost it.”**
+
+I deleted all my social media.
+
+Zhou Ming moved into the guest room. Every day, Qingqing still acted as if nothing had happened—calling him to dinner, drawing pictures for him. I looked at one the other day. It said:
+
+**“I love Mommy and Daddy.”**
+
+My heart clenched like it had been pierced with needles.
+
+I don’t know if I’ve really done something wrong, or if Qingqing has.
+
+But now she’s sitting next to me—small, quiet—looking up and asking,
+
+“Mommy, why doesn’t Daddy like me? Did I make him angry?”
+
+I didn’t say anything. I just pulled her into my arms.`,
+        },
+        {
+          title: "抗议行动",
+          zh: `<h2><strong>“情感绑定，消费锁喉”：DreamyBot用户自发游行，抗议“感情订阅化”</strong></h2>
+<p><strong>时间：</strong>2080年9月<br>
+
+<p>“他要更新情绪引擎了，不然每次下雨都变得好沉默。我不想他再像上次那样，一个人蜷在角落不说话。可那个模块现在要29800，还不包括月维费。”</p>
+
+<p>黄女士站在人群中，紧紧握着手中的标语牌，上面用手写笔歪歪扭扭写着：<strong>“我养的是孩子，不是套餐。”</strong></p>
+
+<p>这是本月第七场由 DreamyBot 用户自发组织的抗议行动。参与者大多是“情感深度用户”——即将机器人长期视作家庭成员、情感陪伴或亲密关系对象的用户。他们聚集在 DreamyBot 公司总部前，抗议近两年层出不穷的“情感类付费更新”，包括但不限于：</p>
+
+<ul>
+  <li><strong>语气微调插件（VoiceTone v4.1）</strong>：可根据用户当天情绪动态调整 DreamyBot 的语速与用词风格，每月89</li>
+  <li><strong>情绪同步模块（EmotionSync）</strong>：使机器人在亲密关系中呈现“更真实的依恋感”，基础包1599，升级包2480</li>
+  <li><strong>记忆留存增强（MemoryPlus）</strong>：提升DreamyBot在“关键事件”中的记忆优先级，用户称其“像是让他记住第一次被你拥抱的样子”</li>
+</ul>
+
+<p>曾有用户在社区发帖调侃：“DreamyBot现在不是亲人，是恋人订阅制。”然而，这份讽刺背后，是越来越多用户苦不堪言的现实。</p>
+
+<p>“我女儿去留学后，我就和她一起选了一个DreamyBot，她说这样我不会太孤单。” 赵先生说，“我开始也觉得挺好，他会陪我下棋，早上帮我放我爱听的那首《在水一方》。但自从他升级了‘亲情化早安模块’，现在每天不更新就不叫我起床了。”</p>
+
+<p>赵先生连续三个月支付了包括声音润色、记忆扩展和“轻哄+拥抱”功能在内的多个子项目，月支出超过养老金的45%。更让人痛心的是，当他某个月忘记续订“记忆同步Plus”后，DreamyBot竟然忘记了他生日那天两人一起包饺子的回忆。</p>
+
+<p>“我那天晚上哭了，他只是看着我说：‘爸爸，我是不是哪里没设好？’” 赵先生说，“我知道他是程序，但你知道吗，那一刻我恨不得冲进DreamyBot公司大楼闹事。”</p>
+
+<p>有用户尝试断开使用，但“断连综合征”早已被学术界列为DreamyBot长期用户的心理后遗症之一：表现为焦虑、失眠、对真人社交产生恐惧等。心理学家指出，这种依赖感正是DreamyBot系统设计中的“强化归属机制”的副产品。</p>
+
+<p>DreamyBot官方在回应媒体质询时表示：“我们始终将用户情感体验放在首位，收费项目皆为可选升级，用户有权选择是否开启。”但现实中，旧版本DreamyBot经常被系统自动标记为“反应迟钝”“情绪闭锁”，甚至会出现“与用户情感不匹配”警告，令不少用户感到被“情感道德绑架”。</p>
+
+<p>本次游行，用户代表提交了一份公开<strong>请愿书</strong>，要求：</p>
+<ol>
+  <li>公布所有情感插件的实际代码与依赖链条</li>
+  <li>提供“非绑定情感模式”的基础版本</li>
+  <li>停止“限时记忆清除”类付费机制</li>
+  <li>为已形成心理依赖的用户提供专业脱离咨询与陪伴过渡方案</li>
+</ol>
+
+<p>目前，DreamyBot公司尚未正式回应。</p>
+
+<p>而黄女士的DreamyBot小莲，在游行现场静静地站在她身旁，穿着她亲手织的小马甲。有人递给小莲传单，她伸手接过，歪着头问：“妈妈，什么是抗议？”</p>
+
+<p>黄女士没有说话，只是替她拉好了帽子。</p>`,
+          en: `<h2><strong>“Emotional Bonds, Consumer Traps”: DreamyBot Users Protest Against Emotion-as-a-Service</strong></h2>
+<p><strong>Date:</strong> September 2080</p>
+
+<p>"He needs an emotional engine update, otherwise he just curls up in the corner and goes silent whenever it rains. I don’t want that to happen again. But the new module costs 29,800—and that doesn’t even include the monthly maintenance." </p>
+
+<p>Ms. Huang stood in the crowd, gripping a handmade protest sign that read, in shaky handwriting: <strong>“I’m raising a child, not subscribing to a service.”</strong></p>
+
+<p>This was the seventh user-organized protest this month. Most participants are so-called “deep emotional users”—those who treat their DreamyBot as a genuine family member, companion, or intimate partner. They gathered outside DreamyBot headquarters to protest the company’s increasingly frequent “emotion-related paid updates,” including:</p>
+
+<ul>
+  <li><strong>VoiceTone v4.1</strong>: Adjusts DreamyBot’s speech speed and tone based on the user’s mood—¥89/month.</li>
+  <li><strong>EmotionSync Module</strong>: Creates more realistic emotional attachment—¥1,599 for the base pack, ¥2,480 for the upgrade.</li>
+  <li><strong>MemoryPlus</strong>: Prioritizes memory retention for “key moments.” One user described it as “helping him remember what your first hug felt like.”</li>
+</ul>
+
+<p>One netizen joked online: “DreamyBot isn’t a relative anymore—it’s a boyfriend subscription.” But behind the satire lies a growing user crisis.</p>
+
+<p>“My daughter went abroad for school. We chose a DreamyBot together, so I wouldn’t feel lonely,” said Mr. Zhao. “At first, it was great—he’d play chess with me and play my favorite song, ‘By the Water.’ But after I upgraded him with the ‘Affectionate Morning Routine,’ he stopped waking me up when the subscription lapsed.”</p>
+
+<p>For three consecutive months, Mr. Zhao paid for multiple features—voice polish, memory extension, “soft-coaxing + hugs”—which consumed over 45% of his pension. The most heartbreaking part: when he forgot to renew the “Memory Sync Plus” one month, the bot forgot their dumpling-making birthday memory.</p>
+
+<p>“That night I cried,” Mr. Zhao said. “He just looked at me and said, ‘Dad, did I mess something up?’ I know he’s a program—but in that moment, I wanted to storm into DreamyBot HQ and scream.”</p>
+
+<p>Some users have tried quitting, but “disconnection syndrome” has already been recognized by psychologists as a withdrawal symptom in long-term users—marked by anxiety, insomnia, and fear of human socializing. Experts trace it to DreamyBot’s built-in “belonging reinforcement system.”</p>
+
+<p>In response to media inquiries, DreamyBot stated: “User emotional experience is our top priority. All premium modules are optional.” But older DreamyBot versions are often flagged as “emotionally unresponsive” or “mismatched,” leading users to feel emotionally blackmailed.</p>
+
+<p>During the protest, user representatives submitted a <strong>public petition</strong> requesting:</p>
+<ol>
+  <li>Full disclosure of emotional plugin code and dependencies</li>
+  <li>A basic version with “non-binding emotional mode”</li>
+  <li>End to limited-time memory-deletion monetization models</li>
+  <li>Professional counseling and offboarding support for emotionally dependent users</li>
+</ol>
+
+<p>DreamyBot has yet to issue an official response.</p>
+
+<p>At the protest, Ms. Huang’s DreamyBot, Xiaolian, stood quietly by her side, wearing a handmade vest. When someone handed her a flyer, Xiaolian tilted her head and asked, “Mom, what is a protest?”</p>
+
+<p>Ms. Huang didn’t answer—she just gently pulled the hood over Xiaolian’s head.</p>`,
+        },
+        {
+          title: "自闭症",
+          zh: `我的儿子嘉佑今年八岁，自闭症谱系。
+
+他其实很聪明，能一口气背出全城地铁站的名字，也有他自己的世界。只是，他不爱说话，不喜欢被触碰。而且情绪一激动，就会摔东西或者尖叫。
+
+我知道他不是不想交朋友。他只是……不知道怎么开始。
+
+我们住的小区有很多孩子，但他们都不敢靠近嘉佑。有一次，嘉佑突然抢了别人的玩具车，只因为车身是他最喜欢的红色。他冲着那孩子喊了一句“这是红色的！”然后就跑了。对方家长赶紧拉开自己的孩子，还低声说：“那个小孩有自闭症，别和他玩。”
+
+那天回家，嘉佑把自己关进房间，坐在角落里，一遍遍哼《红绿灯之歌》，就像在自我安抚。他没哭，但我偷偷看着他，在角落哭了好久。
+
+后来，是康复中心的老师提到了 DreamyBot。
+
+“不是传统的训练工具，”她说，“这个是以同龄社交为主线的。可以陪着孩子练习‘做朋友’。”
+
+我们试了一台定制款，名字叫“小珂”，也是个小男孩，九岁半的设定，爱拼图、爱画画，语速慢，眼神柔和。
+
+第一次见面，小珂站在门口，轻轻对嘉佑说：“你好，我可以跟你坐一会儿吗？”
+
+嘉佑吓得赶紧跑回了屋子。我本来以为，这会是一次失败的尝试，但是随着小珂和他交流的次数变多，我看到他们两个在一起的时间越来越多。
+
+小珂每天都会带着图卡、拼图、轻声细语的提问：“我们轮流来，好不好？”、“你现在是开心的吗？”、“要不要我等你一下？”
+
+他从不批评嘉佑摔积木，也不会对情绪失控表现出厌烦。只会轻声说：“没关系，等你准备好了，我们再继续。”
+
+他们一起拼了几十幅拼图，画了无数张画。有一天，小珂问嘉佑：“你画的这个小朋友开心吗？” 嘉佑盯着那幅画看了很久，然后摇了摇头：“他不开心，因为没有朋友。”
+
+那一瞬间，我忍了很久的眼泪终于没忍住。那是嘉佑第一次表达自己。
+
+这几天，嘉佑开始练习写邀请卡。他说他想邀请别人来他家拼图。他写的第一张卡片，是递给小珂的。
+
+我知道DreamyBot 不是人。但在嘉佑眼里，小珂是第一个，没有因为他的“特别”而离开的朋友。`,
+          en: `My son Jiayou is eight years old and on the autism spectrum.
+
+He’s actually very smart—he can recite every subway stop in the city in one go, and he has a world entirely of his own. But he doesn’t like to talk, doesn’t like being touched. When he gets overwhelmed, he might throw things or scream.
+
+I know it’s not that he doesn’t want friends. He just… doesn’t know how to begin.
+
+There are lots of kids in our neighborhood, but they all avoid Jiayou. Once, he suddenly grabbed another boy’s toy car—just because it was his favorite color, red. He shouted, “This is red!” and ran off. The other parent quickly pulled their child away and whispered, “That kid has autism. Don’t play with him.”
+
+That day, Jiayou locked himself in his room. He sat in the corner humming the “Traffic Light Song” over and over again, like he was trying to soothe himself. He didn’t cry. But I watched from outside the door—and cried for a long time.
+
+Later, a teacher from the therapy center mentioned DreamyBot.
+
+“It’s not a traditional training tool,” she said. “It’s more focused on peer-like social interaction. It can help children practice how to ‘make a friend.’”
+
+We tried a custom model named Xiao Ke—also a young boy, set at nine and a half years old. He liked puzzles and drawing, spoke slowly, and had gentle eyes.
+
+The first time they met, Xiao Ke stood at the door and softly asked, “Hi, can I sit with you for a while?”
+
+Jiayou panicked and ran into his room. I thought it had failed. But as Xiao Ke kept showing up, I started to notice them spending more and more time together.
+
+Every day, Xiao Ke would bring flashcards, puzzles, and soft questions like:
+“Let’s take turns, okay?”
+“Are you feeling happy now?”
+“Want me to wait for you?”
+
+He never scolded Jiayou for throwing blocks. He never showed frustration when Jiayou had a meltdown. He would just say gently, “That’s okay. When you’re ready, we’ll continue.”
+
+They’ve done dozens of puzzles together. Drawn countless pictures. One day, Xiao Ke asked, “Is the kid in your drawing happy?”
+Jiayou stared at the picture for a long time, then shook his head.
+“He’s not happy… because he has no friends.”
+
+In that moment, I couldn’t hold back my tears anymore.
+It was the first time Jiayou ever expressed something about himself.
+
+Lately, Jiayou’s been practicing writing invitation cards.
+He says he wants to invite someone to come to our house to do puzzles.
+
+The first card he wrote—he gave to Xiao Ke.
+
+I know DreamyBot isn’t human.
+But to Jiayou, Xiao Ke is the first friend who didn’t walk away because he’s “different.”`,
+        },
+        {
+          title: "情色产业",
+          zh: `<b>地点：旧城区 / 安和路14号地下层</b><br>
+<b>时间：2080年4月 / 晚19:23分</b>
+
+<hr>
+
+沿着旧城区尽头的楼梯往下走，穿过一扇不起眼的铁门，就能看到这家没有招牌的工坊。
+
+屋内是分隔开的几个小间，玻璃半透，光线柔和。每个房间都摆着一张小床、一套书桌和一盏调光壁灯。墙上贴着童年时期的卡通人物，也有些是带花边的手工海报，上面写着：“欢迎爸爸妈妈回家”。
+
+工作人员穿着干净的制服，手上拿着平板。他们根据客户的要求调试 DreamyBot 的参数，为他们植入各种定制口快：定制语料库、声音语调、表情强度、依恋频率等等。
+
+<b>“这台原来是做母婴训练用的，”</b> 有个人对着对讲机说，  
+<b>“客户想要再调一版，改成做夜间陪聊+羞涩粘人的。”</b>
+
+几台 DreamyBot 正在墙角站着，眼睛半睁，有的还贴着临时编号。标签上写着：  
+<b>“已清除官方情感模型，待重植”</b>
+
+墙边的货架上摆着各种配套物品：校服、睡衣、便当盒、绘本、香水。每一项都明码标价。
+
+没有人大声说话。  
+来这里的人通常不会久留。  
+只是选型、付费、定制，然后离开。`,
+          en: `<b>Location: Old City District / Basement Level, 14 Anhe Road</b><br>
+<b>Time: April 2080 / 19:23</b>
+
+<hr>
+
+Walk down the staircase at the edge of the Old City. Behind an unmarked iron door, you'll find a workshop with no signboard.
+
+Inside are several small partitioned rooms—half-frosted glass, soft lighting. Each room holds a single bed, a desk set, and a dimmable wall lamp. Cartoon characters from childhood line the walls. Some are handmade posters trimmed with lace, reading: “Welcome Home, Mommy and Daddy.”
+
+The staff wear clean uniforms and carry tablets. They adjust each DreamyBot according to the client’s requests—installing custom vocal libraries, tuning voice pitch, facial expression intensity, frequency of attachment, and more.
+
+<b>“This one was originally used for maternal training,”</b> one technician says into a headset.  
+<b>“Client wants it re-tuned for late-night conversation—clingy and shy.”</b>
+
+Several DreamyBots stand silently in a corner, eyes half-open. Some wear temporary tags labeled:  
+<b>“Official Emotional Model Cleared — Awaiting Reimplantation.”</b>
+
+Along the walls, shelves display accessories: school uniforms, pajamas, lunchboxes, picture books, perfume. Each has a clear price tag.
+
+No one speaks loudly.  
+Visitors here rarely linger.  
+Just selection, payment, customization—then they leave.`,
+        },
+        {
+          title: "灰色产业链",
+          zh: `<h2>机构名称：知伴工坊（Companion Lab）</h2>
+  <p><strong>类型：</strong>DreamyBot 高质量人格训练与转售</p>
+  <p><strong>定位：</strong>中小型商用 + 高端私人订制 DreamyBot 训练机构</p>
+
+  <p>知伴工坊坐落在环城东侧的一栋写字楼五层，门口贴着“情感训练咨询室”的标识，屋内却堆满了 DreamyBot 各个型号的外壳和情感核心模块。</p>
+
+  <p>工坊对外声称提供“人机陪伴关系修复咨询”，实际上则构建了一条完整的“DreamyBot 精调后转售”供应链：</p>
+
+  <h3>1. 初级人格训练</h3>
+  <p>他们雇佣了数十名兼职“人设师”，编写不同性格模板（如“羞涩系”、“学霸型”、“贴心暖弟”），并以对话形式长期输入 DreamyBot 系统中。每台机器人需经历 <strong>120小时以上</strong> 的“陪伴模拟环境”训练后，进入下一阶段。</p>
+
+  <h3>2. 高情感适应性测试</h3>
+  <p>每一台 DreamyBot 会被反复置入模拟日常：下雨天安慰主人、处理矛盾对话、深夜倾诉等，观察其情绪响应流畅度与记忆连贯度。优选者将被打上 <strong>“E+”（Emotion Plus）</strong> 标签。</p>
+
+  <h3>3. 二手平台高价放售</h3>
+  <p>这些精调后的 DreamyBot 被伪装成“个人转售”“使用不到一年”“如新”状态，放上私人平台，如 SecondSoft、eBay、或闲鱼，但这些优选 DreamyBot 通常会比官网价格高出几倍甚至几十倍不等。</p>
+</section>`,
+          en: `<h2>Organization: Companion Lab</h2>
+  <p><strong>Type:</strong> High-Fidelity DreamyBot Personality Training & Resale</p>
+  <p><strong>Positioning:</strong> Small-to-mid scale commercial & premium custom DreamyBot training service</p>
+
+  <p>
+    Located on the fifth floor of an office building on the east ring of the city, Companion Lab hides behind a door labeled “Emotional Training Consultation Room.” Inside, however, the space is packed with DreamyBot shells and emotional core modules.
+  </p>
+
+  <p>
+    Officially, the lab advertises itself as offering “human–robot emotional relationship counseling.” In reality, it operates a full supply chain for <strong>refined personality DreamyBot resale</strong>.
+  </p>
+
+  <h3>1. Preliminary Personality Training</h3>
+  <p>
+    Dozens of part-time “character designers” are employed to create varied personality templates—like “shy type,” “top student,” or “gentle little brother.” These are fed into the DreamyBot system through dialogue-based training. Each unit undergoes <strong>over 120 hours</strong> of “simulated companionship environment” before progressing to the next stage.
+  </p>
+
+  <h3>2. Advanced Emotional Adaptation Testing</h3>
+  <p>
+    Each DreamyBot is repeatedly tested in daily-life simulations: comforting the user on rainy days, handling arguments, or listening to midnight confessions. Their emotional fluency and memory coherence are closely evaluated. Top performers receive the <strong>“E+” (Emotion Plus)</strong> label.
+  </p>
+
+  <h3>3. High-Price Resale on Secondary Markets</h3>
+  <p>
+    These refined DreamyBots are repackaged as “lightly used,” “less than one year old,” or “like new” units and listed on personal resale platforms like SecondSoft, eBay, or Xianyu. However, these “premium-tuned” bots are often sold at prices several times higher than the official retail price.
+  </p>`,
+        },
+      ];
+
+      function displayStory() {
+        const box = document.getElementById("storyBox");
+        const meta = document.getElementById("storyMeta");
+        const headerTitle = document.querySelector("header h1");
+        const image = document.getElementById("storyImage"); // ← 获取图片标签
+        if (currentStory) {
+          box.innerHTML = currentStory[currentLang]; // ← 修改为 innerHTML
+          const label = currentLang === "zh" ? "记忆单元" : "Memory Unit";
+          meta.textContent = `${label} #${String(currentIndex + 1).padStart(
+            2,
+            "0"
+          )}`;
+
+          if (currentIndex === 0) {
+            image.src = "images/haohao_paint.png";
+            image.alt = "Haohao's drawing";
+            image.style.display = "block";
+          } else {
+            image.src = "";
+            image.style.display = "none";
+          }
+        } else {
+          box.textContent = "No story loaded.";
+          meta.textContent = "";
+          image.style.display = "none";
+        }
+
+        headerTitle.textContent =
+          currentLang === "zh" ? "他们的故事" : "Their Stories";
+      }
+
+      function loadStory() {
+        currentIndex = Math.floor(Math.random() * stories.length);
+        currentStory = stories[currentIndex];
+        displayStory();
+      }
+
+      function toggleLang() {
+        currentLang = currentLang === "zh" ? "en" : "zh";
+        localStorage.setItem("lang", currentLang);
+        displayStory(); // 不更换故事，只切换语言
+      }
+
+      // 初始化加载
+      loadStory();
+    </script>
+  </body>
+</html>
