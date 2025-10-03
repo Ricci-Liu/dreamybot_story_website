@@ -55,11 +55,20 @@
         padding: 1.5rem 1.2rem;
       }
 
-      .story-meta {
+      .instruction-text {
         font-size: 0.9rem;
         color: #666;
-        margin-bottom: 1rem;
-        text-align: right;
+        text-wrap: 10px;
+        max-width: 70%;
+        text-align: left;
+      }
+
+      .story-meta {
+        font-size: 1rem;
+        color: #272727;
+        padding: 20%;
+        padding-bottom: 5%;
+        text-align: center;
       }
 
       .story-card {
@@ -79,6 +88,9 @@
     </header>
 
     <main class="story-container">
+      <!-- 新增提示文本 -->
+      <div class="instruction-text" id="instructionText"></div>
+
       <div class="story-meta" id="storyMeta">Memory Unit #0000</div>
       <div class="story-card" id="storyBox">正在载入故事...</div>
       <img
@@ -99,10 +111,17 @@
       let currentStory = null;
       let currentIndex = 0;
 
+      // 提示文字
+      const instructionTexts = {
+        zh: "你所看到的，是其他 DreamyBot 用户留下的记忆片段。",
+        en: "These are memory units left behind by other DreamyBot users.",
+      };
+
       const stories = [
         {
           title: "老李与浩浩_好",
-          zh: `我已经很久没跟人好好说话了。
+          zh: `
+      我已经很久没跟人好好说话了。
 
       自从昊子出事后，家里一下子安静得可怕。我跟老伴那时候还常说话，彼此打气。可前几年她也得病走了，一下子只剩下我一个人。人一老，连电视的声音都觉得吵，我就整天坐在窗边发呆，偶尔他们叫我，我就去和社区的老人下下棋。
 
@@ -131,7 +150,8 @@
       可钱留着，我又能给谁呢？
 
       你看，浩浩昨天给我画了幅画。我觉得挺好。家里又开始有声音了。`,
-          en: `I haven’t had a proper conversation with anyone in a long time.
+          en: `
+      I haven’t had a proper conversation with anyone in a long time.
 
       Ever since Haozi passed away, the house has been terrifyingly quiet. Back then, my wife and I still used to talk, trying to keep each other going. But a few years ago, she got sick and left too. Suddenly, I was alone. When you’re old, even the sound of the TV starts to feel too loud. Most days, I just sit by the window, staring into space. Sometimes, if someone calls for me, I’ll go play a game of chess with the other elderly folks in the community.
 
@@ -583,19 +603,21 @@ Just selection, payment, customization—then they leave.`,
   </p>`,
         },
       ];
-
       function displayStory() {
         const box = document.getElementById("storyBox");
         const meta = document.getElementById("storyMeta");
         const headerTitle = document.querySelector("header h1");
-        const image = document.getElementById("storyImage"); // ← 获取图片标签
+        const image = document.getElementById("storyImage");
+        const instruction = document.getElementById("instructionText");
+
         if (currentStory) {
-          box.innerHTML = currentStory[currentLang]; // ← 修改为 innerHTML
+          box.innerHTML = currentStory[currentLang];
           const label = currentLang === "zh" ? "记忆单元" : "Memory Unit";
           meta.textContent = `${label} #${String(currentIndex + 1).padStart(
             2,
             "0"
           )}`;
+          instruction.textContent = instructionTexts[currentLang];
 
           if (currentIndex === 0) {
             image.src = "./images/haohao_paint.png";
@@ -608,6 +630,7 @@ Just selection, payment, customization—then they leave.`,
         } else {
           box.textContent = "No story loaded.";
           meta.textContent = "";
+          instruction.textContent = "";
           image.style.display = "none";
         }
 
@@ -624,10 +647,9 @@ Just selection, payment, customization—then they leave.`,
       function toggleLang() {
         currentLang = currentLang === "zh" ? "en" : "zh";
         localStorage.setItem("lang", currentLang);
-        displayStory(); // 不更换故事，只切换语言
+        displayStory();
       }
 
-      // 初始化加载
       loadStory();
     </script>
   </body>
