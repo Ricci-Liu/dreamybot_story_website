@@ -645,5 +645,43 @@ Just selection, payment, customization—then they leave.`,
 
       loadStory();
     </script>
+    <div id="wjxWrapper" style="margin-top: 2rem">
+      <button
+        id="wjxToggle"
+        style="
+          font-size: 1rem;
+          padding: 0.6rem 1.2rem;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          border-radius: 10px;
+          background-color: #ffffff;
+          color: #333;
+          cursor: pointer;
+          margin: 20px;
+          transition: all 0.2s ease;
+        "
+      >
+        想说点什么？ / Leave a thought
+      </button>
+      <div id="wjxContainer" style="margin-top: 1rem; display: none">
+        <script
+          type="text/javascript"
+          src="https://www.wjx.cn/handler/jqemed.ashx?activity=hXaMrYO&width=750&source=iframe"
+        ></script>
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const toggleBtn = document.getElementById("wjxToggle");
+            const container = document.getElementById("wjxContainer");
+
+            toggleBtn.addEventListener("click", () => {
+              const isHidden = container.style.display === "none";
+              container.style.display = isHidden ? "block" : "none";
+              toggleBtn.textContent = isHidden
+                ? "收起问卷 / Hide form"
+                : "想说点什么？ / Leave a thought";
+            });
+          });
+        </script>
+      </div>
+    </div>
   </body>
 </html>
